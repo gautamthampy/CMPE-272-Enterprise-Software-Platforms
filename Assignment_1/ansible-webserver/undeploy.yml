@@ -1,0 +1,21 @@
+---
+- name: Undeploy webservers
+  hosts: webservers
+  become: yes
+
+  tasks:
+    - name: Stop nginx service
+      service:
+        name: nginx
+        state: stopped
+
+    - name: Remove nginx package
+      apt:
+        name: nginx
+        state: absent
+        purge: yes
+
+    - name: Remove web content
+      file:
+        path: /var/www/html
+        state: absent
